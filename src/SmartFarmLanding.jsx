@@ -26,10 +26,10 @@ const Hero = () => (
           <div className="h-9 w-9 rounded-xl grid place-items-center bg-emerald-600 text-white shadow-lg">
             <Leaf size={20} />
           </div>
-          <span className="font-semibold text-xl tracking-tight">Bro SmartFarm</span>
+          <span className="font-semibold text-xl tracking-tight">AgriEsim</span>
         </div>
         <div className="hidden md:flex items-center gap-6 text-sm text-neutral-700">
-          <a href="#features" className="hover:text-emerald-700">Features</a>
+          <a href="#features" className="hover:text-emerald-700">features</a>
           <a href="#how" className="hover:text-emerald-700">How it works</a>
           <a href="#pricing" className="hover:text-emerald-700">Pricing</a>
           <a href="#contact" className="hover:text-emerald-700">Contact</a>
