@@ -205,7 +205,7 @@ const Contact = () => (
         <div className="rounded-2xl border p-6 text-neutral-700">
           <h3 className="text-xl font-semibold">Talk to a human</h3>
           <div className="mt-4 flex items-center gap-3"><Phone className="h-5 w-5 text-emerald-700" /> +82 (0)10-0000-0000</div>
-          <div className="flex items-center gap-3"><Mail className="h-5 w-5 text-emerald-700" /> hello@smartfarm.local</div>
+          <div className="flex items-center gap-3"><Mail className="h-5 w-5 text-emerald-700" /> 27yunchanseo@gmail.com</div>
           <div className="flex items-center gap-3"><MapPin className="h-5 w-5 text-emerald-700" /> Gongju, Chungcheongnam-do</div>
         </div>
       </div>
