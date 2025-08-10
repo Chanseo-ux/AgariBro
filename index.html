@@ -85,5 +85,44 @@ async function send(){
 sendBtn.addEventListener("click",send);
 inputEl.addEventListener("keydown",e=>{if(e.key==="Enter") send();});
 </script>
+    <!-- Mini YouTube inside the drawer -->
+<div id="mini-yt" style="padding:10px;">
+  <div style="display:flex;gap:8px;align-items:center;">
+    <input id="ytQuery" placeholder="Search YouTube…" style="flex:1;padding:10px;border-radius:10px;border:1px solid #e5e7eb;">
+    <button id="ytBtn" style="padding:10px 14px;border:none;border-radius:10px;background:#22c55e;color:#fff;cursor:pointer;">Search</button>
+  </div>
+  <div id="ytResults" style="margin-top:12px;"></div>
+</div>
+
+<script>
+async function ytSearch() {
+  const q = document.getElementById("ytQuery").value.trim();
+  if (!q) return;
+  const box = document.getElementById("ytResults");
+  box.innerHTML = "Searching…";
+  try {
+    const r = await fetch(`/api/youtube?q=${encodeURIComponent(q)}`);
+    const data = await r.json();
+    if (!data.items?.length) { box.innerHTML = "No results."; return; }
+    box.innerHTML = data.items.map(v => `
+      <div style="margin-bottom:14px;">
+        <iframe
+          width="100%" height="200"
+          src="https://www.youtube-nocookie.com/embed/${v.videoId}"
+          title="${v.title.replace(/"/g,'&quot;')}"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen loading="lazy"></iframe>
+        <div style="font:14px/1.3 system-ui;margin-top:6px;">${v.title}</div>
+        <div style="font:12px/1.2 system-ui;color:#64748b;">${v.channel}</div>
+      </div>
+    `).join("");
+  } catch (e) {
+    console.error(e);
+    box.innerHTML = "Error loading results.";
+  }
+}
+document.getElementById("ytBtn").addEventListener("click", ytSearch);
+document.getElementById("ytQuery").addEventListener("keydown", e => { if (e.key === "Enter") ytSearch(); });
+</script>
   </body>
 </html>
