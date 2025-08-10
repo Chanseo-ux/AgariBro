@@ -1,4 +1,5 @@
 import YouTubeSearch from "./youtubesearch";
+import { useState } from "react";
 import React from "react";
 import { motion } from "framer-motion";
 import {
@@ -230,6 +231,65 @@ const Footer = () => (
     </Section>
   </footer>
 );
+function YouTubeSearchInline() {
+  const [q, setQ] = useState("");
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  async function search() {
+    if (!q.trim()) return;
+    setLoading(true);
+    try {
+      const r = await fetch(`/api/youtube?q=${encodeURIComponent(q)}`);
+      const data = await r.json();
+      setItems(data.items || []);
+    } catch (e) {
+      console.error(e);
+      setItems([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div style={{ marginTop: 40, padding: "20px 16px", background: "#f9fafb", borderTop: "1px solid #e5e7eb" }}>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>YouTube Search</h2>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && search()}
+          placeholder="Search YouTube…"
+          style={{ flex: 1, padding: 10, borderRadius: 10, border: "1px solid #e5e7eb" }}
+        />
+        <button onClick={search} style={{ padding: "10px 14px", borderRadius: 10, border: 0, background: "#22c55e", color: "#fff", cursor: "pointer" }}>
+          Search
+        </button>
+      </div>
+
+      <div style={{ marginTop: 14 }}>
+        {loading && <div>Searching…</div>}
+        {!loading && items.length === 0 && <div style={{ color: "#64748b" }}>No results yet.</div>}
+        {items.map((v) => (
+          <div key={v.videoId} style={{ marginBottom: 16 }}>
+            <iframe
+              width="100%"
+              height="220"
+              src={`https://www.youtube-nocookie.com/embed/${v.videoId}`}
+              title={v.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              loading="lazy"
+              style={{ borderRadius: 12 }}
+            />
+            <div style={{ font: "14px/1.3 system-ui", marginTop: 6 }}>{v.title}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function SmartFarmLanding() {
   return (
@@ -240,7 +300,7 @@ export default function SmartFarmLanding() {
       <Pricing />
       <Contact />
       <Footer />
-      <YouTubeSearch />
+     <YouTubeSearchInline /> 
     </div>
   );
 }
