@@ -22,23 +22,40 @@ export default function YouTubeSearch() {
         placeholder="Search for videos..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        style={{ padding: "10px", width: "300px" }}
       />
-      <button onClick={searchVideos}>Search</button>
+      <button
+        onClick={searchVideos}
+        style={{
+          padding: "10px",
+          marginLeft: "10px",
+          background: "green",
+          color: "white",
+        }}
+      >
+        Search
+      </button>
 
       <div style={{ marginTop: "20px" }}>
-        {videos.map((video) => (
-          <div key={video.id.videoId} style={{ marginBottom: "20px" }}>
-            <iframe
-              width="320"
-              height="180"
-              src={`https://www.youtube.com/embed/${video.id.videoId}`}
-              title={video.snippet.title}
-              allowFullScreen
-            />
-            <p>{video.snippet.title}</p>
-          </div>
-        ))}
+        {videos.length > 0 ? (
+          videos.map((video) => (
+            <div key={video.videoId} style={{ marginBottom: "20px" }}>
+              <h3>{video.title}</h3>
+              <iframe
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${video.videoId}`}
+                title={video.title}
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            </div>
+          ))
+        ) : (
+          <p>No results yet.</p>
+        )}
       </div>
     </div>
   );
 }
+
